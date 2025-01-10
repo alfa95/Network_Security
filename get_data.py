@@ -23,17 +23,32 @@ class NetworkDataExtract():
         except Exception as e:
             raise NetworkSecurityException(e, sys)
     
-    def csv_tojson_convertor(self):
+    def csv_tojson_convertor(self, file_path):
         try:
-            pass
+            data = pd.read_csv(file_path)
+            data.reset_index(drop=True, inplace=True)
+            records = list(json.loads(data.T.to_json()).values())
+            return records
         except Exception as e:
             raise NetworkSecurityException(e, sys)
     
-    def pushing_data_to_mongodb(self):
+    def pushing_data_to_mongodb(self, data, database_name, collection_name):
         try:
-            pass
+            self.database = database_name
+            self.collection = collection_name
+            self.records = data
+            self.client = pymongo.MongoClient(MONGO_DB_URL)
+            self.database = self.client[self.database]
+            self.collection = self.database[self.collection]
+            self.collection.insert_many(self.records)
+            return len(self.records)
         except Exception as e:
             raise NetworkSecurityException(e, sys)
     
-    if __name__ == "__main__":
-        pass
+if __name__ == "__main__":
+    FILE_PATH = "./Network_data/NetworkData.csv"
+    DATABASE_NAME = "NetworkSecurity"
+    COLLECTION_NAME = "NetworkData"
+    networkobj = NetworkDataExtract()
+    records = networkobj.csv_tojson_convertor(FILE_PATH)
+    pushed_records_count = networkobj.pushing_data_to_mongodb(records, DATABASE_NAME, COLLECTION_NAME)
