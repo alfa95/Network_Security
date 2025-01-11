@@ -2,7 +2,7 @@ import os
 import sys
 
 from networksecurity.exception.exception import NetworkSecurityException
-from networksecurity.logger.logger import logger
+from networksecurity.logger.logger import logging
 
 from networksecurity.components.data_ingestion import DataIngestion
 from networksecurity.components.data_transformation import DataTransformation
