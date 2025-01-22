@@ -22,7 +22,6 @@ from networksecurity.entity.config_entity import (
 )
 
 from networksecurity.entity.artifact_entity import (
-    TrainingPipelineArtifact,
     DataIngestionArtifact,
     DataTransformationArtifact,
     DataValidationArtifact,
