@@ -6,7 +6,7 @@ ca = certifi.where()
 
 from dotenv import load_dotenv
 load_dotenv()
-mongo_db_url = os.getenv("MONGODB_URL_KEY")
+mongo_db_url = os.getenv("MONGO_DB_URL")
 print(mongo_db_url)
 
 AWS_ACCESS_KEY_ID=os.getenv("AWS_ACCESS_KEY_ID")
@@ -76,7 +76,6 @@ async def train_route():
 async def predict_route(request: Request,file: UploadFile = File(...)):
     try:
         df=pd.read_csv(file.file)
-        #print(df)
         model = ModelResolver(model_dir=SAVED_MODEL_DIR)
         latest_model_path = model.get_best_model_path()
         latest_model = load_object(file_path=latest_model_path)

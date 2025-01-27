@@ -1,4 +1,5 @@
 venv
+saved_models
 notebooks
 .git
 Network_Data

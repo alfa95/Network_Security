@@ -74,7 +74,7 @@ class TrainingPipeline:
         try:
             self.model_trainer_config = ModelTrainerConfig(training_pipeline_config=self.training_pipeline_config)
             model_trainer = ModelTrainer(data_transformation_artifact=data_transformation_artifact,model_trainer_config=self.model_trainer_config)
-            model_trainer_artifact = model_trainer.initiate_model_training()
+            model_trainer_artifact = model_trainer.initiate_model_trainer()
             return model_trainer_artifact
         except Exception as e:
             raise NetworkSecurityException(e, sys)
@@ -111,9 +111,9 @@ class TrainingPipeline:
             if not model_eval_artifact.is_model_accepted:
                 raise NetworkSecurityException("Model is not accepted", sys)
             model_pusher_artifact = self.start_model_pusher(model_eval_artifact=model_eval_artifact)
-            #TrainingPipeline.is_pipeline_running = False
-            #self.sync_artifact_dir_to_s3()
-            #self.sync_saved_model_dir_to_s3()
+            TrainingPipeline.is_pipeline_running = False
+            self.sync_artifact_dir_to_s3()
+            self.sync_saved_model_dir_to_s3()
 
         except Exception as e:
             raise NetworkSecurityException(e, sys)
